@@ -1,0 +1,244 @@
+from ast import Break
+from cProfile import label
+from re import S
+from sys import maxsize
+import tkinter as tk
+from tracemalloc import stop
+from turtle import width
+from typing import Self
+import keyboard
+import PySimpleGUI as psg
+import pyautogui as pag
+from time import sleep
+import mouse
+from tkinter import *
+from tkinter import ttk
+from tkinter import Tk, Button, Toplevel
+
+
+true_false = True
+win = None
+n = 0
+z = 0
+g = 0
+
+
+def true_false_revers():
+    global true_false
+    true_false = False
+    if win:
+        win.destroy()
+
+
+def close_clicked_res():
+    global true_false
+    true_false = False
+    if win:
+        win.destroy()
+
+
+def restart_clicked():
+    global true_false
+    true_false = True
+    if win:
+        win.destroy()
+    clicker()
+
+
+def on_closing():
+
+    global true_false
+    true_false = False
+    if win:
+        win.destroy()
+
+
+def clicker():
+    global true_false, win
+    true_false = True
+
+    win = tk.Tk()
+    win.geometry('450x200')
+    win.configure(bg='darkgrey')
+    win.attributes("-topmost", True)
+    win.resizable(width=False, height=False)
+
+
+    win.protocol("WM_DELETE_WINDOW", on_closing)
+
+    x = [0] * 100
+    y = [0] * 100
+    q = [0] * 100
+
+    def checkpos1():
+        if q[1] == 0:
+            x[1], y[1] = pag.position()
+            l2 = tk.Label(win, text=f"x= {x[1]}", bg='#FFFF8C')
+            l3 = tk.Label(win, text=f"y= {y[1]}", bg='#FFFF8C')
+            l2.grid(row=2, column=2, stick='e', columnspan=3)
+            l3.grid(row=3, column=2, stick='e', columnspan=3)
+            q[1] += 1
+
+    def checkpos2():
+        if q[2] == 0:
+            x[2], y[2] = pag.position()
+            l2 = tk.Label(win, text=f"x= {x[2]}", bg='#FFFF8C')
+            l3 = tk.Label(win, text=f"y= {y[2]}", bg='#FFFF8C')
+            l2.grid(row=2, column=3, stick='e', columnspan=3)
+            l3.grid(row=3, column=3, stick='e', columnspan=3)
+            q[2] += 1
+
+    def checkpos3():
+        if q[3] == 0:
+            x[3], y[3] = pag.position()
+            l2 = tk.Label(win, text=f"x= {x[3]}", bg='#FFFF8C')
+            l3 = tk.Label(win, text=f"y= {y[3]}", bg='#FFFF8C')
+            l2.grid(row=2, column=4, stick='e', columnspan=3)
+            l3.grid(row=3, column=4, stick='e', columnspan=3)
+            q[3] += 1
+
+    def checkpos4():
+        if q[4] == 0:
+            x[4], y[4] = pag.position()
+            l2 = tk.Label(win, text=f"x= {x[4]}", bg='#FFFF8C')
+            l3 = tk.Label(win, text=f"y= {y[4]}", bg='#FFFF8C')
+            l2.grid(row=2, column=5, stick='e', columnspan=3)
+            l3.grid(row=3, column=5, stick='e', columnspan=3)
+            q[4] += 1
+
+    def checkpos5():
+        if q[5] == 0:
+            x[5], y[5] = pag.position()
+            l2 = tk.Label(win, text=f"x= {x[5]}", bg='#FFFF8C')
+            l3 = tk.Label(win, text=f"y= {y[5]}", bg='#FFFF8C')
+            l2.grid(row=2, column=6, stick='e', columnspan=3)
+            l3.grid(row=3, column=6, stick='e', columnspan=3)
+            q[5] += 1
+
+    def f_1():
+        keyboard.add_hotkey('1', checkpos1)
+
+    def f_2():
+        keyboard.add_hotkey('2', checkpos2)
+
+    def f_3():
+        keyboard.add_hotkey('3', checkpos3)
+
+    def f_4():
+        keyboard.add_hotkey('4', checkpos4)
+
+    def f_5():
+        keyboard.add_hotkey('5', checkpos5)
+
+    def f_n():
+        global n
+        if e1.get() == '':
+            els = tk.Label(win, text='Value not defined', bg='red')
+            els.grid(row=2, column=0)
+        elif e1.get().isdigit():
+            n = int(e1.get())
+        win.focus_force()
+
+    def f_z():
+        global z
+        pause = e2.get()
+        if pause and pause.isdigit():
+            z = int(pause)
+        else:
+            els1 = tk.Label(win, text='Value not defined', bg='red')
+            els1.grid(row=5, column=0)
+            win.after(2000, els1.destroy)
+        win.focus_force()
+
+    def f_g():
+        global g
+        keys = e3.get()
+        if keys and keys.isdigit():
+            g = int(keys)
+        else:
+            els2 = tk.Label(win, text='Value not defined', bg='red')
+            els2.grid(row=8, column=0)
+            win.after(2000, els2.destroy)
+        win.focus_force()
+
+    def muve():
+        sleep(3)
+        for i in range(n):
+            w = 0
+            for q_val in range(g):
+                w += 1
+                mouse.move(x[w], y[w], duration=0.5)
+                mouse.click('left')
+            sleep(z)
+
+
+    l1 = tk.Label(win, text='Select the pause time you need', bg='orange')
+    l1.grid(row=3, column=0, stick='w', columnspan=5)
+
+    l2 = tk.Label(win, text='Select the numbers of repetoins', bg='orange')
+    l2.grid(row=0, column=0, stick='w', columnspan=2)
+
+    e1 = tk.Entry(win, width=7)
+    bS = tk.Button(win, text='OK', command=f_n, width=2, bg='grey')
+    e1.grid(row=1, column=0)
+    bS.grid(row=1, column=1)
+
+    e2 = tk.Entry(win, width=7)
+    bN = tk.Button(win, text='OK', command=f_z, width=2, bg='grey')
+    e2.grid(row=4, column=0)
+    bN.grid(row=4, column=1)
+
+    e3 = tk.Entry(win, width=7)
+    bK = tk.Button(win, text='OK', command=f_g, width=2, bg='grey')
+    e3.grid(row=7, column=0)
+    bK.grid(row=7, column=1)
+
+    l3 = tk.Label(win, text='Set the coordinates of the keys', bg='orange')
+    l3.grid(row=0, column=2, columnspan=6)
+
+    l4 = tk.Label(win, text='Enter the number of keys (from 1 to 5)', bg='orange')
+    l4.grid(row=6, column=0, columnspan=8, stick='w')
+
+
+    X1 = tk.Label(win, text='', bg='darkgrey', width=7, bd=2)
+    X1.grid(row=2, column=1, columnspan=8)
+
+    X2 = tk.Label(win, text='', bg='darkgrey', width=6, bd=2)
+    X2.grid(row=5, column=1, columnspan=8)
+
+    X3 = tk.Label(win, text='', bg='darkgrey', width=2, bd=2)
+    X3.grid(row=0, column=2)
+
+
+    button1 = tk.Button(win, text="1", bd=3, command=f_1, bg='grey', width=5)
+    button1.grid(row=1, column=4, stick='w')
+
+    button2 = tk.Button(win, text="2", bd=3, command=f_2, bg='grey', width=5)
+    button2.grid(row=1, column=5, stick='w')
+
+    button3 = tk.Button(win, text="3", bd=3, command=f_3, bg='grey', width=5)
+    button3.grid(row=1, column=6, stick='w')
+
+    button4 = tk.Button(win, text="4", bd=3, command=f_4, bg='grey', width=5)
+    button4.grid(row=1, column=7, stick='w')
+
+    button5 = tk.Button(win, text="5", bd=3, command=f_5, bg='grey', width=5)
+    button5.grid(row=1, column=8, stick='w')
+
+    # Кнопки управления
+    start = tk.Button(win, text='Start', bd=2, bg='orange', font=("Arial", 8), command=muve, width=6)
+    start.grid(row=7, column=5, stick='e')
+
+    restart = tk.Button(win, text="Restart", bd=2, command=restart_clicked, bg='orange', width=6, font=("Arial", 8))
+    restart.grid(row=7, column=6, stick='e')
+
+    close = tk.Button(win, text="Close", bd=2, command=close_clicked_res, bg='orange', width=6, font=("Arial", 8))
+    close.grid(row=7, column=7, stick='e')
+
+    keyboard.add_hotkey('esc', true_false_revers)
+
+    win.mainloop()
+
+
+
+clicker()
